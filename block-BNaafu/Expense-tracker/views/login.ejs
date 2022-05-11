@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+    <title>login form</title>
+  </head>
+  <body class="login_body">
+    <header>
+      <a href="/"><strong> Expense Tracker</strong></a>
+      <nav>
+        <a href="/users/register"><button class="sign">Sign up</button></a>
+      </nav>
+    </header>
+
+    <form class="login_form" action="/users/login" method="POST">
+      <h2 class="title">LOGIN</h2>
+      <input
+        type="text"
+        name="email"
+        id=""
+        placeholder="enter email"
+      /><br /><br />
+      <input
+        type="password"
+        name="password"
+        id=""
+        placeholder="enter password"
+      /><br /><br />
+      <button type="submit" class="btn-3">Login</button>
+      <p class="text">or login with</p>
+      <button class="btn-2">
+        <a href="/auth/google" class="white red">
+          <i class="fab white fa-google"></i> Sign in with Google</a
+        >
+      </button>
+      <button class="btn-2">
+        <a href="/auth/github" class="blue">
+          <i class="fab fa-github"></i> Sign in with Github</a
+        >
+      </button>
+      <p class="link">Not A member ? <a href="/users/register" class="last">Sign up now</a></p>
+    </form>
+  </body>
+</html>
