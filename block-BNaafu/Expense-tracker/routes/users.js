@@ -85,3 +85,9 @@ router.get('/logout' , (req ,res) => {
 
 })
 module.exports = router;
+
+// SECRET =somerandomsecret
+// CLIENT_ID = 4dd31e6d378974f267a3
+// CLIENT_SECRET =da509186dd4fd78db0c451064a18abb74c1f491e
+// CLINTID=928098088238-seg47lpc5gt1sosfmrgdtck4ap9vp0vm.apps.googleusercontent.com
+// CLINTSECRET=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
