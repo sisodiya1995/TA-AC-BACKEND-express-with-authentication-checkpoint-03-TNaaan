@@ -102,7 +102,7 @@ router.get("/filter", auth.isUser, (req, res) => {
       }
     );
   } else if (incomesource) {
-    Income.find({ incomesource, userID: req.user.id }, (err, income) => {
+    Income.find({source: incomesource, userID: req.user.id }, (err, income) => {
       var totalIncome = income.reduce((acc, cv) => {
         acc = cv.amount + acc;
         return acc;
@@ -110,25 +110,25 @@ router.get("/filter", auth.isUser, (req, res) => {
       console.log(income, "income");
       return res.render(
         "dashboard",
-        { income, bal: totalIncome, expense: [{}] },
-        totalIncome,
-        totalexpense
+        { income, bal: totalIncome, expense: [{}], totalIncome,
+        totalexpense :0},
+        
       );
     });
   } else if (categorysource) {
     Expense.find(
       { category: categorysource, userID: req.user.id },
       (err, expense) => {
-        var totalIncome = expense.reduce((acc, cv) => {
+        var totalexpense = expense.reduce((acc, cv) => {
           acc = cv.amount + acc;
           return acc;
         }, 0);
         //console.log(income ,"income")
         return res.render(
           "dashboard",
-          { expense, bal: totalIncome, income: [{}] },
-          totalIncome,
-          totalexpense
+          { expense, bal: totalexpense, income: [{}] ,totalIncome :0,
+          totalexpense },
+          
         );
       }
     );
@@ -166,7 +166,7 @@ router.get("/filter", auth.isUser, (req, res) => {
 
             var bal = totalIncome - totalexpense;
             //res.render('dashboard',{bal :`${totalIncome}` - `${totalexpense}`})
-            res.render("dashboard", { bal, expense, income, expense });
+            res.render("dashboard", { bal, expense, income, expense  ,totalIncome ,totalexpense});
           }
         );
       }
