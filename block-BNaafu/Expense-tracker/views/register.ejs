@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+    <title>Register page</title>
+  </head>
+
+  <body class="register-body">
+    <header>
+      <a href="/"><strong> Expense Tracker</strong></a>
+      <nav>
+        <a href="/users/login"><button class="login">Login</button></a>
+      </nav>
+    </header>
+    <h2>REGISTER</h2>
+    <form class="register" action="/users/register" method="POST">
+      <label for="name"
+        >Name :
+        <input type="text" name="name" id="name" placeholder="enter Name" />
+        <br /><br />
+      </label>
+      <label for="email"
+        >Email :
+        <input
+          type="text"
+          name="email"
+          id="email"
+          placeholder="enter email"
+        /><br /><br />
+      </label>
+      <label for="password"
+        >Password :
+        <input
+          type="password"
+          name="password"
+          id="password"
+          placeholder="enter password"
+        /><br /><br />
+      </label>
+      <label for="age"
+        >Age :
+        <input type="number" name="age" id="age" placeholder="enter age" />
+        <br /><br />
+      </label>
+      <label for="phone"
+        >Phone :
+        <input
+          type="number"
+          name="phone"
+          id="phone"
+          placeholder="enter phone"
+        />
+        <br /><br />
+      </label>
+      <label for="country"
+        >Country :
+        <input
+          type="text"
+          name="country"
+          id="country"
+          placeholder="enter country"
+        />
+        <br /><br />
+      </label>
+
+      <button type="submit" class="btn">CREATE ACCOUNT</button>
+    </form>
+  </body>
+</html>

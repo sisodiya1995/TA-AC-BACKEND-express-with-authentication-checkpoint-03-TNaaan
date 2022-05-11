@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+    <title>user dashboard</title>
+</head>
+<body>
+    <header class="dashboard_header">
+        <a href=""><strong> Expense Tracker</strong></a>
+        <nav class="dash-nav">
+            <cite>Hi <%=user.name%></cite>
+            <small>Wallet :<%=bal%> Rs</small>
+          <a href="/users/logout" ><button class="login">logout</button></a>
+        </nav>
+      </header>
+    
+    
+      
+       <main>
+
+       
+       <section class="section-1">
+        <h3> Add Income</h3>
+        <form class="dashbord-form" action ="/dashboard/income" method="POST">
+            <select class="option-1" name="source" id="source">
+
+                <option value="salary">salary</option>
+                <option value="trading">trading</option>
+                <option value="bussiness">bussiness</option>
+            </select>
+             <input type="number" class="input-bgr" name="amount" id="" placeholder="Enter amount">
+             <input type="date" class="input-bgr" name="date" id="">
+             <button  class="option_btn" type="submit">Add Income</button>
+        </form>
+  
+        <h3>Add Expanse </h3>
+        <form class="dashbord-form" action ="/dashboard/expense" method="POST">
+          <select  class="option-1" name="category" id="">
+             
+              <option value="health">health</option>
+              <option value="grocery">grocery</option>
+              <option value="lifestyle">lifestyle</option>
+          </select>
+           <input type="number" class="input-bgr" name="amount" id="" placeholder="Enter amount">
+           <input type="date" class="input-bgr" name="date" id="">
+           
+           <button  class="option_btn" type="submit">Add Expense</button>
+      </form>
+  
+       </section>
+         
+    
+       <section class="section-3">
+        <div class="filter income">
+            <h4>Income : <small class="greenam"><%=totalIncome%></small> Rs</h2>
+           <% income.forEach((exp) => {%>
+               <p>Source : <%=exp.source%></p> 
+               <p> Amount : <%=exp.amount%></p> 
+               <p>Date :<%=exp.date%></p> 
+            <% }) %>
+        </div>
+        <div class="filter exp">
+            <h4>Expense : <small class="redam"><%=totalexpense%></small> Rs</h2>
+           <% expense.forEach((exp) => {%>
+               <p> Category : <%=exp.category%></p> 
+               <p>Amount :<%=exp.amount%></p> 
+               <p>Date :<%=exp.date%></p> 
+            <% }) %>
+        </div>
+     </section>
+
+
+    <section class="section-2">
+        <div>
+            <h3>All Filters</h3>
+            <form class="dashbord-form" action="/dashboard/filter" >
+                <input type ="date" class="input-bgr" name = "from" id = "">
+                <input type ="date" class="input-bgr" name = "to" id = "">
+               
+                <button  class="option_btn" type ="submit">Search</button>
+            </form>
+        </div>
+        <form class="dashbord-form" action="/dashboard/filter">
+           <select  class="option_btn-1" name="category" id="">
+               
+               <option value="health">health</option>
+               <option value="grocery">grocery</option>
+               <option value="lifestyle">lifestyle</option>
+           </select>
+           <button  class="option_btn-1 filterbtn" type="submit">filer by category</button>
+        </form>
+        <form class="dashbord-form" action="/dashboard/filter">
+           <select  class="option_btn-1" name="source" id="source">
+               >
+               <option value="salary">salary</option>
+               <option value="trading">trading</option>
+               <option value="bussiness">bussiness</option>
+           </select> 
+           <button  class="option_btn-1 filterbtn" type="submit">filer by source</button>
+        </form>
+   
+   
+       <form class="dashbord-form" action="/dashboard/filter" method="GET">
+           <input type="month" name="month"  class="input-bgr"id="date"> <br> 
+           <button  class="option_btn" type="submit">filter by month</button>
+       </form>
+    </section>
+    
+     
+
+       </main>
+
+
+</body>
+</html>
