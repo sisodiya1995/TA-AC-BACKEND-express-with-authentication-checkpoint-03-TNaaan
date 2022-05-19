@@ -9,27 +9,18 @@ router.get("/", auth.isUser, (req, res, next) => {
   var year = date.getFullYear();
   let startdate = `${year}/${month}/01`;
   let enddate = `${year}/${month}/30`;
+
   Income.find(
     { date: { $gte: startdate, $lt: enddate }, userID: req.user.id },
     (err, income) => {
       if (err) return next(err);
-      var totalIncome = income.reduce((acc, cv) => {
-        acc = cv.amount + acc;
-        return acc;
-      }, 0);
+      var totalIncome = getTotal(income);
 
       Expense.find(
         { date: { $gte: startdate, $lt: enddate }, userID: req.user.id },
         (err, expense) => {
-          var totalexpense = expense.reduce((acc, cv) => {
-            acc = cv.amount + acc;
-            return acc;
-          }, 0);
-
-          var bal = totalIncome - totalexpense;
-          //res.render('dashboard',{bal :`${totalIncome}` - `${totalexpense}`})
+          var totalexpense = getTotal(expense);
           res.render("dashboard", {
-            bal,
             expense,
             income,
             totalIncome,
@@ -70,29 +61,19 @@ router.get("/filter", auth.isUser, (req, res) => {
   let categorysource = req.query.category;
   let month = req.query.month;
 
-  console.log(incomesource, "sourc");
   if (from && to) {
     Expense.find(
       { date: { $gte: from, $lt: to }, userID: req.user.id },
       (err, expense) => {
         if (err) return next(err);
-        var totalexpense = expense.reduce((acc, cv) => {
-          acc = cv.amount + acc;
-          return acc;
-        }, 0);
+        var totalexpense = getTotal(expense);
         Income.find(
           { date: { $gte: from, $lt: to }, userID: req.user.id },
           (err, income) => {
-            var totalIncome = income.reduce((acc, cv) => {
-              acc = cv.amount + acc;
-              return acc;
-            }, 0);
+            var totalIncome = getTotal(income);
 
-            var bal = totalIncome - totalexpense;
-            // console.log(filterexp ,filterinc ,"filter")
             res.render("dashboard", {
               income,
-              bal,
               expense,
               totalIncome,
               totalexpense,
@@ -102,34 +83,32 @@ router.get("/filter", auth.isUser, (req, res) => {
       }
     );
   } else if (incomesource) {
-    Income.find({source: incomesource, userID: req.user.id }, (err, income) => {
-      var totalIncome = income.reduce((acc, cv) => {
-        acc = cv.amount + acc;
-        return acc;
-      }, 0);
-      console.log(income, "income");
-      return res.render(
-        "dashboard",
-        { income, bal: totalIncome, expense: [{}], totalIncome,
-        totalexpense :0},
-        
-      );
-    });
+    Income.find(
+      { source: incomesource, userID: req.user.id },
+      (err, income) => {
+        if (err) return next(err);
+        var totalIncome = getTotal(income);
+        // console.log(income, "income");
+        return res.render("dashboard", {
+          income,
+          expense: [{}],
+          totalIncome,
+          totalexpense: 0,
+        });
+      }
+    );
   } else if (categorysource) {
     Expense.find(
       { category: categorysource, userID: req.user.id },
       (err, expense) => {
-        var totalexpense = expense.reduce((acc, cv) => {
-          acc = cv.amount + acc;
-          return acc;
-        }, 0);
-        //console.log(income ,"income")
-        return res.render(
-          "dashboard",
-          { expense, bal: totalexpense, income: [{}] ,totalIncome :0,
-          totalexpense },
-          
-        );
+        if (err) return next(err);
+        var totalexpense = getTotal(expense);
+        return res.render("dashboard", {
+          expense,
+          income: [{}],
+          totalIncome: 0,
+          totalexpense,
+        });
       }
     );
   } else if (month) {
@@ -151,22 +130,20 @@ router.get("/filter", auth.isUser, (req, res) => {
       { date: { $gte: firstDay, $lt: lastDay }, userID: req.user.id },
       (err, income) => {
         if (err) return next(err);
-        var totalIncome = income.reduce((acc, cv) => {
-          acc = cv.amount + acc;
-          return acc;
-        }, 0);
+        var totalIncome = getTotal(income);
 
         Expense.find(
           { date: { $gte: firstDay, $lt: lastDay }, userID: req.user.id },
           (err, expense) => {
-            var totalexpense = expense.reduce((acc, cv) => {
-              acc = cv.amount + acc;
-              return acc;
-            }, 0);
-
-            var bal = totalIncome - totalexpense;
-            //res.render('dashboard',{bal :`${totalIncome}` - `${totalexpense}`})
-            res.render("dashboard", { bal, expense, income, expense  ,totalIncome ,totalexpense});
+            if (err) return next(err);
+            var totalexpense = getTotal(expense);
+            res.render("dashboard", {
+              expense,
+              income,
+              expense,
+              totalIncome,
+              totalexpense,
+            });
           }
         );
       }
@@ -184,6 +161,13 @@ function getMonth() {
     }
   }
   return month;
+}
+
+ function getTotal(arr) {
+  return arr.reduce((acc, cv) => {
+    acc = cv.amount + acc;
+    return acc;
+  }, 0);
 }
 
 module.exports = router;

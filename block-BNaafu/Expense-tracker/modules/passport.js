@@ -28,8 +28,10 @@ passport.use(new GitHubStrategy({
                 if(err) return done(err);
                 return done(null ,addedUser) 
             })
+        } else {
+          done(null ,user)
         }
-        done(null ,user)
+        
     })
   }
 ));
@@ -61,8 +63,10 @@ passport.use(new GoogleStrategy({
                 if(err) return done(err);
                 return done(null ,addedUser) 
             })
+        } else {
+          done(null ,user)
         }
-        done(null ,user)
+        
     })
 
   }
